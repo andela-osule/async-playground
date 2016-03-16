@@ -4,10 +4,15 @@ import asyncio
 fpath = 'data/file.dat'
 
 
-@asyncio.coroutine
-def read_line():
-    file_content = yield from open(fpath, 'r')
+async def get_file():
+    return open(fpath, 'r')
+
+async def read_line():
+    f = await get_file()
+    for line in f:
+        print(line)
 
 if __name__ == '__main__':
-    for line in read_line():
-        print(line)
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(read_line())
+    loop.close()
